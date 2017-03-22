@@ -21,6 +21,8 @@ Kubernetes 的部署以 pod 為最小單元，一個 pod 可以包含一到多�
 
 Pods理論上會持續運作直至被人為或控制器(controller)命令所終止。Pods被設計為短暫的(ephemeral)。
 
+*  Naked pods will not be rescheduled in the event of node failure.
+Replication controllers are almost always preferable to creating pods, except for some explicit restartPolicy: Never scenarios
 
 
 
