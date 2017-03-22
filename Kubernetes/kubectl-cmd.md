@@ -32,6 +32,12 @@ kubectl create configmap [CONFIGMAP NAME] --from-file=[CONFIG FILE PATH]
 kubectl get configmap [CONFIGMAP NAME] -o yaml
 ```
 
+## 更新 image
+```bash
+kubectl set image deployment/[DEPLOYMENT NAME] [POD NAME]=[IMAGE SRC]
+```
+image 位置如果沒變，試著加上`:latest` tag。
+
 ## Debug
 
 * 用 k8s Dashboard 查看 cluster 狀態：
