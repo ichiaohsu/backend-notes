@@ -24,6 +24,8 @@ Pods理論上會持續運作直至被人為或控制器(controller)命令所終�
 *  Naked pods will not be rescheduled in the event of node failure.
 Replication controllers are almost always preferable to creating pods, except for some explicit restartPolicy: Never scenarios
 
+# Services
 
+Service name 會被當作 DNS name，必須與程式碼中的 api server host 統一。
 
 

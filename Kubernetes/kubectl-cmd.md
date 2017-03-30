@@ -37,6 +37,12 @@ kubectl get configmap [CONFIGMAP NAME] -o yaml
 kubectl set image deployment/[DEPLOYMENT NAME] [POD NAME]=[IMAGE SRC]
 ```
 image 位置如果沒變，試著加上`:latest` tag。
+*使用一次之後就沒用了，用以下方法更新！
+據說rolling-update會在背景運作
+
+```bash
+kubectl apply -f [DEPLOYMENT FILE]
+```
 
 ## Debug
 
