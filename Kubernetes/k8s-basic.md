@@ -28,5 +28,5 @@ Replication controllers are almost always preferable to creating pods, except fo
 
 Service name 會被當作 DNS name，必須與程式碼中的 api server host 統一。
 
-自 k8s v1.0 起，services 可被視為一種第四層(TCP/IP)結構。從 v1.1 開始，Ingress API 以 service 第七層結構(HTTP)版本加入 k8s。
+自 k8s v1.0 起，services 可被視為一種第四層(TCP/IP)結構。從 v1.1 開始，Ingress API 以 service 第七層結構(HTTP)版本加入 k8s。如果將 service 宣告為 LoadBalancer 時，並指定 ip 時，就會看到此 ip 出現在 service 中的 LoadBalancer Ingress。
 
