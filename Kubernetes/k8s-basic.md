@@ -28,9 +28,26 @@ Nodes 是一台虛擬主機(VM)或實體主機資源。分享相同設定的 nod
 * kubelet:
 * kube-proxy:
 
+> 可以兩種模式運作：`userspace` 和 `iptables`
+
+> * userspace: 
+> In the userspace mode, kube-proxy is running > as a userspace process i.e. regular application. It 
+> terminates all incoming service connections and creates a new connection to a particular service 
+> endpoint. The advantage of the userspace mode is that because the connections are created from 
+> userspace process, if the connection fails, kube-proxy can retry to a different endpoint. 
+
+> * iptables:
+> In iptables mode, the traffic routing is done entirely through kernelspace via quite complex iptables 
+> kung-fu. Feel free to check the iptables rules on each node. This is way more efficient than moving 
+> the packets from the kernel to userspace and then back to the kernel. So you get higher throughput and 
+> better latency. The downside is that the service can be more difficult to debug, because you need to 
+> inspect logs from iptables and maybe do some tcpdumping or what not.
+
 ## Pods
 
-Kubernetes 的部署以 pod 為最小單元，一個 pod 可以包含一到多個 docker container。Pod 內的 container 可以共享相同的 volume，network 和 namespace，因此可透過 `localhost` 彼此溝通。不同的 container 不可使用相同的 port。
+Kubernetes 的部署以 pod 為最小單元，一個 pod 可以包含一到多個 docker container。Pod 內的 container 可以共享相同的 volume，network 和 namespace，因此可透過 `localhost` 彼此溝通。也因此不同的 container 無法使用相同的 port。各 pod 擁有自己的 cluster IP。與不同 node 之間的溝通，可以透過此 cluster IP(此段待證明)。
+
+*(containers within a Pod can all reach each other’s ports on localhost, and all pods in a cluster can see each other without NAT)*
 
 Pods 理論上會持續運作直至被人為或控制器 (controller) 命令所終止。Pods 的壽命被設計為短暫的(ephemeral)。
 
@@ -41,7 +58,7 @@ Replication controllers are almost always preferable to creating pods, except fo
 
 Service name 會被當作 DNS name，必須與程式碼中的 api server host 統一。
 
-自 k8s v1.0 起，services 可被視為一種第四層(TCP/IP)結構。從 v1.1 開始，Ingress API 以 service 第七層結構(HTTP)版本加入 k8s。如果將 service 宣告為 LoadBalancer 時，並指定 ip 時，就會看到此 ip 出現在 service 中的 LoadBalancer Ingress。
+自 k8s v1.0 起，services 可被視為一種第四層結構。從 v1.1 開始，Ingress API 以 service 第七層結構(HTTP)版本加入 k8s。如果將 service 宣告為 LoadBalancer 時，並指定 ip 時，就會看到此 ip 出現在 service 中的 LoadBalancer Ingress。
 
 Services 分四種:
 * ClusterIP: 只會分配 cluster ip，不能從外部訪問。5這是預設的服務類別。
@@ -52,3 +69,19 @@ Services 分四種:
 p.s. 一般來說 service type 指定為 `type:LoadBalancer` 毋須指定 `NodePort`，但在 AWS 上必須這麼做。
 
 參考: https://kubernetes.io/docs/user-guide/services/
+
+## Ingress
+
+即使在 service 設定中利用 `type:LoadBalancer` 引入平台提供者的負載平衡器，這也只會是一個 tcp 類型的負載平衡器。要建立第七層的負載平衡，k8s 利用 ingress 物件來建立路由規則，將外部流量導引至對應的 service。
+
+(Ingress is an API resource which represents a set of traffic routing rules that map external traffic to K8s services.)
+
+要使用 ingress，必須建立 ingress 物件以及 ingress controller。
+
+1. Run Ingress controller
+2. Create Ingress (API object)
+
+
+ref:
+
+1. http://containerops.org/2017/01/30/kubernetes-services-and-ingress-under-x-ray/
