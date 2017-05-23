@@ -2,13 +2,13 @@
 
 萬一你面前有個大洞叫 k8s，然後有人從後面把你推下去，怎麼辦？莫急莫慌莫請假，這時候請假你同事也不會，趕快往下看，教你如何好棒棒地從零開始把 k8s 接回來自己做。ＹＥＳ ＹＯＵ ＣＡＮ！
 
-## 你也棒棒我也棒棒，棒棒的 k8s 大家一起來
-
-1. 裝 `kubectl` 指令工具
+## 你也棒棒我也棒棒，棒棒的 k8s 大家一起來
+
+1. 裝 `kubectl` 指令工具
 k8s 有一個 API Server，負責監控著你的叢集。摔在坑裡的你，得救第一件事是要摸到這個伺服器。它有開放 RESTful 服務，透過 `kubectl` 指令進行溝通。所以我們的第一件事是要把 `kubectl` 指令工具裝起來。`gcloud` 指令工具已經有整合版，我們透過來 `gcloud` 工具安裝。
 
 ```bash
-gcloud components install kubectl
+gcloud componenㄒts install kubectl
 ```
 
 2. 讓 `kubectl` 指令工具取得你的 GKE 叢集
