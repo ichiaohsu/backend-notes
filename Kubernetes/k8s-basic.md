@@ -68,8 +68,8 @@ p.s. 一般來說 service type 指定為 `type:LoadBalancer` 毋須指定 `NodeP
 1. 建立 Ingress 控制器:
 Ingress 控制器是一個跑在 Pod 裡的 daemon，大體上來說，Ingress 控制器是一種反向代理伺服器，使用者可以選擇比較知名的 nginx ingress 控制器，或是輕量級的 traefik 當作 ingress 控制器，在 GKE 平台上，也可以使用 Google 出的 GLBC(GCE Load Balancer Controller)。Ingress 控制器會監測被貼到 API Server 下的 /Ingress 節點物件，如果 ingress 有所改變，controller 裡的路由設定也會有相應的改變。如果使用 nginx ingress 控制器，可以試著用 `kubectl exec [nginx pod name] cat /etc/nginx/nginx.conf` 觀察 ingress 物件造成的改變。
 
-2. 建立 Ingress 物件：
-Ingress 控制器監控著 API Server 下 `/registry/ingress` 節點的改變，舊有節點的改變，或是有新增的節點，都會促使 controller 更新重啟，照著 template 產生出新版的設定。一個要求基本上會循以下路徑被處理：
+2. 建立 Ingress 物件:
+Ingress 控制器監控著 API Server 下 `/registry/ingress` 節點的改變，舊有節點的改變，或是有新增的節點，都會促使 controller 更新重啟，照著 template 產生出新版的設定。一個要求基本上會循以下路徑被處理：
 
 >>客戶端 -> ingress 控制器 -> 從 kube-dns 尋找特定 service -> kube-proxy/iptables -> service endpoint -> pods
 

@@ -8,7 +8,7 @@
 k8s 有一個 API Server，負責監控著你的叢集。摔在坑裡的你，得救第一件事是要摸到這個伺服器。它有開放 RESTful 服務，透過 `kubectl` 指令進行溝通。所以我們的第一件事是要把 `kubectl` 指令工具裝起來。`gcloud` 指令工具已經有整合版，我們透過來 `gcloud` 工具安裝。
 
 ```bash
-gcloud componenㄒts install kubectl
+gcloud components install kubectl
 ```
 
 2. 讓 `kubectl` 指令工具取得你的 GKE 叢集
@@ -17,6 +17,6 @@ gcloud componenㄒts install kubectl
 gcloud container clusters get-credentials [CLUSTER NAME]
 ```
 
-k8s 會建立一個叢集物件，把叢集的基本資料，和一些登入資訊放在這裡。所以即使你從瀏覽器把叢集刪掉，這裡的資訊還是會留著喔！必須手動刪除。好，在幫指令工具拿到登入權限以後，我們就可以開始啦！
+k8s 會建立一個叢集物件，把叢集的基本資料，和一些登入資訊放在這裡。所以即使你從瀏覽器把叢集刪掉，這裡的資訊還是會留著喔！必須手動刪除。好，在幫指令工具拿到登入權限以後，我們就可以開始啦！
 
 3. 更改你想要的更改
