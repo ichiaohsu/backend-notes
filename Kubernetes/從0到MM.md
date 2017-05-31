@@ -12,7 +12,7 @@ gcloud components install kubectl
 ```
 
 2. 讓 `kubectl` 指令工具取得你的 GKE 叢集
-你必須登入才可以存取 GKE 的各種資源，對 `kubectl` 指令也是一樣的，我們必須為它取得密碼。把你的叢集名稱打在以下命令的 `[]` 之間。
+你必須登入才可以存取 GKE 的各種資源，對 `kubectl` 指令也是一樣的，我們必須為它取得密碼。把你的叢集名稱打在以下命令的 `[]` 之間。
 ```bash
 gcloud container clusters get-credentials [CLUSTER NAME]
 ```
