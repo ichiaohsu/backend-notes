@@ -26,6 +26,12 @@ gcloud compute images create jenkins-home-image --source-uri https://storage.goo
 gcloud compute disks create jenkins-home --image jenkins-home-image --zone asia-east1-a
 ```
 
+註：根據 google 的教學，persistant Disk 在使用以前必須先格式化，也就是要先 mount:
+1. 到任一虛擬機器
+2. 下格式化指令
+3. unmount persistent Disk
+但個人兩個都做過，其實不格式化好像也可以......記得要用 jenkins images 靈光充滿這個磁碟就是了。
+
 ### 設定 jenkins 的密碼
 
 我們要利用 k8s secret 的功能來設定 jenkins 的密碼。密碼的設定寫在 jenkins/options 這個檔案裡。把檔案中的 CHANGE_ME 改成你想要的密碼。
@@ -62,7 +68,7 @@ kubectl apply -f /jenkins/k8s
 kubectl get svc -n jenkins
 ```
 
-2. 如果沒有可用的安全連線 tls 鍵值組，我們就要建立自己的鍵值組給 jenkins 用
+2. 如果沒有可用的安全連線 tls 鍵值組，我們就要建立自己的鍵值組給 jenkins 用
 
 ```bash
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /tmp/tls.key -out /tmp/tls.crt -subj "/CN=jenkins/O=jenkins"
