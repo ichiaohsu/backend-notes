@@ -100,7 +100,7 @@ kubectl get ing jenkins -n jenkins
 
 ### 通往 google container registry 之路
 
-1. 點 Credentials 後再點擊子選項 System
+1. 點 Credentials 後再點擊子選項 System
 2. 點擊 Global credentials
 3. 點 Add Credentials
 4. 選擇 Google Service Account from metadata 後按 OK
@@ -109,14 +109,14 @@ kubectl get ing jenkins -n jenkins
 
 如果 jenkins 跑在 GKE 裡面，就可以使用 google service account 來做認證。
 
-1. 點 Credentials 後再點擊子選項 System
+1. 點 Credentials 後再點擊子選項 System
 2. 點擊 Global credentials
 3. 點 Add Credentials
 4. 選擇 Kubernetes Service Account 後按 OK
 
 ## 設定替身使者
 
-jenkins 被觸發以後，會喚起一個實際來做事的 container，稱為 executor。在 build 專案以前，要先設定用哪種 docker image 來當我們的 executor。
+jenkins 被觸發以後，會喚起一個實際來做事的 container，稱為 executor。在 build 專案以前，要先設定用哪種 docker image 來當我們的 executor。
 
 1. 點 Manage Jenkins，然後點 Configure System
 2. `# of executor` 這項要輸入 `0`，確定我們會用 executor 來跑各項任務。
@@ -126,7 +126,7 @@ kubectl get ing jenkins -n jenkins
 6. Jenkins tunnel: `jenkins-discovery.jenkins.svc.cluster.local:50000`
 7. 最重要的來了，設定 pod template！jenkins 被 trigger 以後，會根據這邊的模板設定喚醒一個 executor 來做事。按照以上的步驟設定到這邊，應該 Kubernetes Cloud 這個選項都已經被建立好了，裡面也已經有一個預設的 jnlp slave image。但這個映像檔的 kubectl 版本可能太舊，若是你的 k8s server 版本在 1.5 以上，會無法取得資源。這邊要自己做一版映像檔，放在 google container registry 上再掛進去。
 
-**注意！！:這個映像檔名字，一定要叫 jenkins-k8s-slave**
+**注意！！這個映像檔名字，一定要叫 jenkins-k8s-slave**
 
 8. 設定兩組 Host Path Volume，讓我們的 jnlp slave 可以連到 docker daemon(但這應該已經預設好了，用預設就好)
 ```bash 
