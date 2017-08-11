@@ -13,20 +13,20 @@
 首先我們必須先拿到 mongodb 的資料，才有辦法用最新的資料庫來更新我們的測試機。這邊我們採用 consumer 機上面每日會拉下來的備份檔，所以任務變成：如何從 consumer 上面下載這個備份檔？答案是 `scp`，`gcloud` 都有內建。
 
 ```bash
-gcloud compute scp consumer-1:/tmp/dump/db/ ~/Downloads/db/ --recurse
+gcloud compute scp consumer-1:/tmp/dump/mongogo/ ~/Downloads/mongogo/ --recurse
 ```
 
-`~/Downloads/db/` 可以替換成你想要的路徑，因為我們是 copy 一整個資料夾，所以 `--recurse` 也是必須的。如果指令報錯 `scp: /tmp/dump/db: not a regular file`，多半必須加上 `--recurse`。
+`~/Downloads/mongogo/` 可以替換成你想要的路徑，因為我們是 copy 一整個資料夾，所以 `--recurse` 也是必須的。如果指令報錯 `scp: /tmp/dump/mongogo: not a regular file`，多半必須加上 `--recurse`。
 
 ## 上傳備份檔
 
 這邊用 `kubectl` 內建的 `cp` 來把備份檔通通傳到 mongodb 所在的 pod 裡面：
 
 ```bash
-kubectl cp ~/Downloads/db mongo-0:/tmp/db
+kubectl cp ~/Downloads/mongogo mongo-0:/tmp/mongogo
 ```
 
-暫時放一下，用 `/tmp` 就好。如果你不想放在 db（或是之前手動更新的時候用過了)，你也可以改一下資料夾的名字。
+暫時放一下，用 `/tmp` 就好。如果你不想放在 mongogo（或是之前手動更新的時候用過了)，你也可以改一下資料夾的名字。
 
 ## 刪掉不要的資料庫
 
@@ -40,7 +40,7 @@ kubectl exec -it mongo-0 bash
 
 ```bash
 mongo
-> use db
+> use mongogo
 > db.dropDatabase()
 ```
 
@@ -49,9 +49,9 @@ mongo
 先退出 mongo shell，然後用 `mongorestore` 重建資料庫。
 
 ```bash
-mongorestore /tmp/db -d db
+mongorestore /tmp/mongogo -d mongogo
 ```
 
-`/tmp/db` 就是我們剛剛上傳備份檔的路徑，`db` 是我們要 import 的資料庫名字，所以我們都用 `db`。
+`/tmp/mongogo` 就是我們剛剛上傳備份檔的路徑，`mongogo` 是我們要 import 的資料庫名字，所以我們都用 `mongogo`。
 
 到這邊就手動同步資料庫完成。
