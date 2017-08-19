@@ -26,7 +26,7 @@ ttl "key"
 
 ### 列出 redis 上所有不會過期的 key
 
-這個方法是在 bash 裡下 shell script 搭配 `redis-cli ttl` 的指令來查詢，所以會在 bash 裡下這段指令，不需要進到 redis-cli。
+這個方法是在 bash 裡下 shell script 搭配 `redis-cli ttl` 的指令來查詢，所以會在 bash 裡下這段指令，不需要進到 redis-cli。
 
 ```bash
 redis-cli keys  "*" | while read LINE ; do TTL=`redis-cli ttl $LINE` ; if [ $TTL -eq -1 ]; then echo "$LINE $TTL"; fi; done;
@@ -35,7 +35,7 @@ redis-cli keys  "*" | while read LINE ; do TTL=`redis-cli ttl $LINE` ; if [ $TTL
 這段在 Stackoverflow 就可以查到，但有些地方會有問題。 `-eq` 有時候無法運作，要換成 `==`。如果 redis 有密碼，就要在指令裡面加上密碼參數 `-a 密碼`。
 
 ```bash
-redis-cli -a 密碼 keys  "*" | while read LINE ; do TTL=`redis-cli -a 密碼 ttl $LINE` ; if [ $TTL == -1 ]; then echo "$LINE $TTL"; fi; done;
+redis-cli -a 密碼 keys  "*" | while read LINE ; do TTL=`redis-cli -a 密碼 ttl $LINE` ; if [ $TTL == -1 ]; then echo "$LINE $TTL"; fi; done;
 ```
 
 踩地雷時間：
@@ -50,5 +50,5 @@ bash: [: missing `]'
 bash: [: too many arguments
 ```
 
-某些 key 可能有空白，導致 bash 認為這是 key + 參數。
+某些 key 可能有空白，導致 bash 認為這是 key + 參數。
 
