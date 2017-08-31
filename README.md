@@ -2,5 +2,7 @@
 
 一些後端的工作筆記
 
-* Elixir
 * Kubernetes
+* Databases
+>* redis
+>* mysql
