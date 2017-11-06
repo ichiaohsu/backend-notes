@@ -31,3 +31,9 @@ SHOW ENGINE INNODB STATUS
 ```
 
 像上面所講的 ADD CONSTRAINT 失敗，就可以去看 `LATEST FOREIGN KEY ERROR` 部分，看能不能有什麼有用的資訊。
+
+### 查詢表格的 schema
+
+```bash
+desc [TABLE NAME]
+```
