@@ -32,6 +32,14 @@ kubectl create configmap [CONFIGMAP NAME] --from-file=[CONFIG FILE PATH]
 kubectl get configmap [CONFIGMAP NAME] -o yaml
 ```
 
+* 用更改過的檔案建立相同名字的 ConfigMap 並取代原有的 ConfigMap:
+
+先用 `dry-run` 的方式建立 ConfigMap，取得 yaml 檔的內容，然後在 pipeline 裡用這個 yaml 來取代原本的 ConfigMap。
+
+```bash
+kubectl create configmap [CONFIGMAP NAME] --from-file [CONFIG FILE PATH] -o yaml --dry-run | kubectl replace -f -
+```
+
 ## 更新 image
 ```bash
 kubectl set image deployment/[DEPLOYMENT NAME] [POD NAME]=[IMAGE SRC]
@@ -42,6 +50,12 @@ image 位置如果沒變，試著加上`:latest` tag。
 
 ```bash
 kubectl apply -f [DEPLOYMENT FILE]
+```
+
+## 重開 pod (用取代的方式):
+
+```bash
+kubectl get pod [PODNAME] -n [NAMESPACE] -o yaml | kubectl replace --force -f -
 ```
 
 ## Debug

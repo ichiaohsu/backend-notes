@@ -37,3 +37,13 @@ SHOW ENGINE INNODB STATUS
 ```bash
 desc [TABLE NAME]
 ```
+
+### 表格狀態
+```bash
+show table status like "[TABLE_NAME]";
+```
+
+### 幫表改名
+```bash
+RENAME TABLE [current tablename] TO [desired tablename];
+```
