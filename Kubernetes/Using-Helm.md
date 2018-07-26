@@ -7,7 +7,7 @@
 ```bash
 kubectl -n kube-system create serviceaccount tiller
 ```
-然後我們要給予這個服務帳號叢集管理者的角色：
+然後我們要給予這個服務帳號叢集管理者的角色：
 ```bash
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 ```
@@ -28,4 +28,18 @@ kubectl -n kube-system delete serviceaccount tiller
 ### 刪除 helm
 ```bash
 helm reset
+```
+
+## 使用 helm
+
+### 刪除 release
+
+```bash
+helm delete {release_name}
+```
+要完整刪除必須加上參數 `--purge`
+
+如果要一次刪除所有 release:
+```bash
+helm list --short | xargs helm delete --purge
 ```
