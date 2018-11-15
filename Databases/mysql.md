@@ -1,8 +1,9 @@
+## Constraints
 ### 列出所有 constraints
 
 ```bash
-SELECT COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_COLUMN_NAME, 
-REFERENCED_TABLE_NAME FROM information_schema.KEY_COLUMN_USAGE 
+SELECT COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_COLUMN_NAME,
+REFERENCED_TABLE_NAME FROM information_schema.KEY_COLUMN_USAGE
 WHERE TABLE_NAME = 'YOUR TABLENAME';
 ```
 
@@ -22,11 +23,22 @@ ALTER TABLE `TABLE_NAME` ADD CONSTRAINT `CONSTRAINT_NAME` FOREIGN KEY `FOREIGN_K
 
 `ON CASCADE DELETE` 和 `ON CASCADE UPDATE` 可以讓母表有變動時，在子表中把相對應的值刪掉或更新。沒有設定這兩項的話，預設為 `RESTRICT`，當要刪除母表中的項目就會被拒絕了。
 
+### Take off constraints temporarily
+Sometimes you will encounter this while truncating table referenced by a constraints:
+```MySQL
+ERROR 1701 (42000): Cannot truncate a table referenced in a foreign key constraint
+```
+You could fix this by temporarily disable foreign key checks:
+```MySQL
+SET FOREIGN_KEY_CHEKCS=0;
+```
+After truncating, you could set it back to 1
+
 ### 查詢 INNODB ENGINE 的狀態
 
 有時候在做 mySQL 操作時，產生錯誤卻無法從中得到真正的問題(比如說 ADD CONSTRAINT 失敗的錯誤就沒什麼訊息可用)。這時候我們可以藉由以下的指令來查詢 INNODB ENGINE 的狀態，得到一些有用的資訊。
 
-```bash 
+```bash
 SHOW ENGINE INNODB STATUS
 ```
 
