@@ -14,7 +14,7 @@ terraform 是一套管理雲端資源的工具，由 DevOps 界大名鼎鼎的 H
 
 #### 開始利用 terraform 管理 GCP 資源
 
-要新增 container cluster 前，我們要先把正式機的 terraform 配置複製一份出來，然後再做 terraform 的前置作業：
+要新增 container cluster 前，我們要先把正式機的 terraform 配置複製一份出來，然後再做 terraform 的前置作業：
 
 ```bash
 terraform init

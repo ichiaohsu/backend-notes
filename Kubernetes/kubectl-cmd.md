@@ -58,6 +58,14 @@ kubectl apply -f [DEPLOYMENT FILE]
 kubectl get pod [PODNAME] -n [NAMESPACE] -o yaml | kubectl replace --force -f -
 ```
 
+## Force delete a pod on a dead node
+Sometimes when a pod was scheduled to a node with questionable status,
+its status would become "Unknown", and unable to be deleted through normal `kubectl delete pod`. Under such circumstances, you should use `grace-period=0` to force delete such pods.
+
+```bash
+kubectl delete pod foo --grace-period=0 --force
+```
+
 ## Debug
 
 * 用 k8s Dashboard 查看 cluster 狀態：
